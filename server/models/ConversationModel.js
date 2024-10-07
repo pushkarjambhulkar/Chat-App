@@ -45,7 +45,10 @@ const conversationSchema = new mongoose.Schema({
     ]
 },{
     timestamps : true
-})
+},
+
+
+)
 
 const MessageModel = mongoose.model('Message',messageSchema)
 const ConversationModel = mongoose.model('Conversation',conversationSchema)

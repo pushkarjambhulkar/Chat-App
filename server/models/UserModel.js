@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { type } = require('server/reply')
 
 const userSchema =  new mongoose.Schema({
     name : {
@@ -17,6 +18,11 @@ const userSchema =  new mongoose.Schema({
     profile_pic : {
         type : String,
         default : ""
+    },
+    Update_Password :{
+        type:String,
+        required : [true, "provide password"]
+        
     }
 },{
     timestamps : true
