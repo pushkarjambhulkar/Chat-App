@@ -28,6 +28,18 @@ const CheckPasswordPage = () => {
       ...prev,
       [name]: value
     }));
+
+    
+  };
+
+  const handleLogin = async (credentials) => {
+    try {
+      const response = await axios.post('/api/login', credentials);
+      localStorage.setItem('token', response.data.token); // Store the token
+      navigate('/home');
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
