@@ -1,49 +1,46 @@
-const UserModel = require("../models/UserModel");
-const bcrypt = require("bcryptjs");
+const User = require('../models/UserModel');
+const bcrypt = require('bcrypt');
 
-async function updatePassword(req, res) {
-  try {
-    // Get the email, newPassword, and confirmPassword from the request body
-    const { email, newPassword, confirmPassword } = req.body;
+const updatePassword = async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
 
-    // Check if the passwords match
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({
-        message: "Passwords do not match",
-        success: false
-      });
+        // Check if fields are provided
+        if (!email || !newPassword) {
+            return res.status(400).json({ success: false, message: 'Email and new password are required' });
+        }
+
+        // Find user by email
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Check if new password is different from the old one
+        const isSamePassword = await bcrypt.compare(newPassword, user.password);
+        if (isSamePassword) {
+            return res.status(400).json({ success: false, message: 'New password cannot be the same as the old password' });
+        }
+
+        // Password validation (min 8 chars, uppercase, lowercase, number, special char)
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({ success: false, message: 'Password must be at least 8 characters, include uppercase, lowercase, number, and special character.' });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update user's password
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Password update error:', error);
+        return res.status(500).json({ success: false, message: 'Error updating password' });
     }
-
-    // Find the user by email
-    const user = await UserModel.findOne({ email });
-
-    // Check if the user exists
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-        success: false
-      });
-    }
-
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Update user's password
-    user.password = hashedPassword;
-    await user.save();
-
-    return res.json({
-      message: "Password updated successfully",
-      success: true
-    });
-
-  } catch (error) {
-    // Handle any errors
-    return res.status(500).json({
-      message: error.message || "Internal Server Error",
-      success: false
-    });
-  }
-}
+};
 
 module.exports = updatePassword;

@@ -142,6 +142,8 @@ const RegisterPage = () => {
                       }
                       
                   </div>
+
+                  
                 
                 </label>
                 

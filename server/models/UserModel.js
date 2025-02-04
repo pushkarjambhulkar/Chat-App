@@ -18,16 +18,13 @@ const userSchema =  new mongoose.Schema({
     profile_pic : {
         type : String,
         default : ""
-    },
-    Update_Password :{
-        type:String,
-        required : [true, "provide password"]
-        
     }
+    
 },{
     timestamps : true
 })
 
-const UserModel = mongoose.model('User',userSchema)
 
-module.exports = UserModel
+const UserModel = mongoose.model('User', userSchema);
+
+module.exports = UserModel;

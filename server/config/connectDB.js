@@ -1,21 +1,16 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-async function connectDB(){
-    try {
-        await mongoose.connect(process.env.MONGODB_URI)
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+        ssl: true, // Enable SSL
+        tlsAllowInvalidCertificates: true, 
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
 
-        const connection = mongoose.connection
-
-        connection.on('connected',()=>{
-            console.log("Connect to DB")
-        })
-
-        connection.on('error',(error)=>{
-            console.log("Something is wrong in mongodb ",error)
-        })
-    } catch (error) {
-        console.log("Something is wrong ",error)
-    }
-}
-
-module.exports = connectDB
+module.exports = connectDB;

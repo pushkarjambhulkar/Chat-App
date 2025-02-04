@@ -7,12 +7,31 @@ const ResetPassword = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
+    if (!email.trim()) {
+      setError('Email is required.');
+      setSuccess('');
+      return;
+    }
+
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/forgot-password`;
+
+
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match!');
+      setSuccess('');
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      setError('Password must be at least 8 characters, include uppercase, lowercase, number, and special character.');
       setSuccess('');
       return;
     }
@@ -20,13 +39,10 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      // Call the backend API to update the password
-      const response = await fetch('/api/updatePassword', {
+      const response = await fetch(URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, newPassword, confirmPassword }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, newPassword }),
       });
 
       const data = await response.json();
