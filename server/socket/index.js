@@ -5,7 +5,7 @@ const getUserDetailsFromToken = require('../helpers/getUserDetailsFromToken')
 const UserModel = require('../models/UserModel')
 const { ConversationModel,MessageModel } = require('../models/ConversationModel')
 const getConversation = require('../helpers/getConversation')
-
+const cors = require("cors"); 
 const app = express()
 
 /***socket connection */
