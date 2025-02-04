@@ -6,7 +6,7 @@ const userDetails = require('../controller/userDetails')
 const logout = require('../controller/logout')
 const updateUserDetails = require('../controller/updateUserDetails')
 const searchUser = require('../controller/searchUser')
-const updatePassword=require('./controller/updatePassword')
+const updatePassword=require('../controller/updatePassword')
 
 
 const router = express.Router()
