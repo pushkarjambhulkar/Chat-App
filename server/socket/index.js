@@ -21,7 +21,7 @@ const io = new Server(server,{
   pingTimeout: 60000, // Increase ping timeout
   pingInterval: 25000 // Adjust ping interval
 });
-})
+
 
 
 
