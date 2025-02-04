@@ -17,9 +17,14 @@ const io = new Server(server,{
     }
 })
 
-/***
- * socket running at http://localhost:8080/
- */
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "*",
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
+
+
 
 //online user
 const onlineUser = new Set()
