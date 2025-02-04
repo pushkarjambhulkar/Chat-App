@@ -60,7 +60,7 @@ const CheckPasswordPage = () => {
         });
 
         // Navigate to the Home page after successful login
-        navigate('/');
+        navigate('/Home');
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
