@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { type } = require('server/reply')
+const reply = require('../reply');
 
 const userSchema =  new mongoose.Schema({
     name : {
