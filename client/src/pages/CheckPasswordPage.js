@@ -63,6 +63,17 @@ const CheckPasswordPage = () => {
             })
             navigate('/')
         }
+
+        if (response.data.success) {
+          dispatch(setToken(response?.data?.token));
+          dispatch(setUser(response?.data?.user)); // Save user details in Redux
+      
+          localStorage.setItem('token', response?.data?.token);
+      
+          setData({ password: "" });
+          navigate('/');
+      }
+      
     } catch (error) {
         toast.error(error?.response?.data?.message)
     }
