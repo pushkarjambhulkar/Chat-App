@@ -62,7 +62,7 @@ docker-compose.override.yml
 /build/
 /out/
 *.map
-
+.env
 # Coverage
 coverage/
 *.lcov
@@ -73,6 +73,7 @@ frontend/.next/
 frontend/build/
 frontend/dist/
 frontend/.cache/
+.env
 
 # Misc
 *.bak
